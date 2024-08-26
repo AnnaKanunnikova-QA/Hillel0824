@@ -1,4 +1,4 @@
-namespace SeleniumDemoQA
+namespace CSharpBasics
 {
     public class Tests
     {
