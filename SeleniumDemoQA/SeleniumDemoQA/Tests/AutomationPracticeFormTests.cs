@@ -4,68 +4,158 @@ using OpenQA.Selenium.Support.UI;
 
 namespace SeleniumDemoQA.Tests
 {
-    public class AutomationPracticeFormTests : BaseClass
+    public class AutomationPracticeFormTests
     {
+        private IWebDriver _driver;
+        IJavaScriptExecutor _js;
+
+        [SetUp]
+        public void Setup()
+        {
+            var options = new ChromeOptions();
+            options.AddArgument("window-size=1400,1200"); // Set desired resolution
+            _driver = new ChromeDriver(options);
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            _driver.Navigate().GoToUrl("https://demoqa.com/automation-practice-form");
+            _js = (IJavaScriptExecutor)_driver;
+        }
+
+        private void ScrollTo(IWebElement element)
+        {
+            _js.ExecuteScript("arguments[0].scrollIntoView(true);", element);
+        }
+          
+        private void FillInput(By selector, string value)
+        {
+            var firstNameInput = _driver.FindElement(selector);
+            ScrollTo(firstNameInput);
+            firstNameInput.SendKeys(value);
+        }
+                
+        private void ClickElement(By selector)
+        {
+            var genderRadioButton = _driver.FindElement(selector);
+            ScrollTo(genderRadioButton);
+            genderRadioButton.Click();
+        }
+
         [Test]
         public void FillAndSubmitFormTest()
         {
-            _driver.Navigate().GoToUrl("https://demoqa.com/automation-practice-form");
-
             FillInput(By.Id("firstName"), "John");
             FillInput(By.Id("lastName"), "Doe");
 
-            FillInput(By.Id("userEmail"), "johndoe@example.com");
+            // Scroll to Email and fill it out
+            var emailInput = _driver.FindElement(By.Id("userEmail"));
+            _js.ExecuteScript("arguments[0].scrollIntoView(true);", emailInput);
+            emailInput.SendKeys("johndoe@example.com");
+
             ClickElement(By.CssSelector("label[for='gender-radio-1']"));
 
-            FillInput(By.Id("userNumber"), "1234567890");
+            // Scroll to Mobile Number and fill it out
+            var mobileNumberInput = _driver.FindElement(By.Id("userNumber"));
+            _js.ExecuteScript("arguments[0].scrollIntoView(true);", mobileNumberInput);
+            mobileNumberInput.SendKeys("1234567890");
 
-            ClickElement(By.Id("dateOfBirthInput"));
-            SelectByText(By.ClassName("react-datepicker__month-select"), "May");
-            SelectByText(By.ClassName("react-datepicker__year-select"), "1990");
-            ClickElement(By.CssSelector(".react-datepicker__day--015:not(.react-datepicker__day--outside-month)"));
+            // Scroll to Date of Birth and set it
+            var dateOfBirthInput = _driver.FindElement(By.Id("dateOfBirthInput"));
+            _js.ExecuteScript("arguments[0].scrollIntoView(true);", dateOfBirthInput);
+            dateOfBirthInput.Click();
 
-            FillInput(By.Id("subjectsInput"), "Maths");
-            GetElementBy(By.Id("subjectsInput")).SendKeys(Keys.Enter);
+            var selectMonth = new SelectElement(_driver.FindElement(By.ClassName("react-datepicker__month-select")));
+            selectMonth.SelectByText("May");
 
-            ClickElement(By.CssSelector("label[for='hobbies-checkbox-1']"));
+            var selectYear = new SelectElement(_driver.FindElement(By.ClassName("react-datepicker__year-select")));
+            selectYear.SelectByText("1990");
 
-            FillInput(By.Id("currentAddress"), "123 Main Street, Anytown, USA");
+            var selectDay = _driver.FindElement(By.CssSelector(".react-datepicker__day--015:not(.react-datepicker__day--outside-month)"));
+            selectDay.Click();
 
-            ClickElement(By.Id("state"));
+            // Scroll to Subjects and fill it out
+            var subjectsInput = _driver.FindElement(By.Id("subjectsInput"));
+            _js.ExecuteScript("arguments[0].scrollIntoView(true);", subjectsInput);
+            subjectsInput.SendKeys("Maths");
+            subjectsInput.SendKeys(Keys.Enter);
 
-            ClickElement(By.XPath("//div[text()='NCR']"));
+            // Scroll to Hobbies and select one
+            var hobbiesCheckbox = _driver.FindElement(By.CssSelector("label[for='hobbies-checkbox-1']"));
+            _js.ExecuteScript("arguments[0].scrollIntoView(true);", hobbiesCheckbox);
+            hobbiesCheckbox.Click();
 
-            ClickElement(By.Id("city"));
-            ClickElement(By.XPath("//div[text()='Delhi']"));
+            // Scroll to Current Address and fill it out
+            var currentAddressInput = _driver.FindElement(By.Id("currentAddress"));
+            _js.ExecuteScript("arguments[0].scrollIntoView(true);", currentAddressInput);
+            currentAddressInput.SendKeys("123 Main Street, Anytown, USA");
 
-            ClickElement(By.Id("submit"));
+            // Scroll to State dropdown and select a state
+            var stateDropdown = _driver.FindElement(By.Id("state"));
+            _js.ExecuteScript("arguments[0].scrollIntoView(true);", stateDropdown);
+            stateDropdown.Click();
+            var selectState = _driver.FindElement(By.XPath("//div[text()='NCR']"));
+            selectState.Click();
 
-            var confirmationModal = GetElementBy(By.Id("example-modal-sizes-title-lg"));
+            // Scroll to City dropdown and select a city
+            var cityDropdown = _driver.FindElement(By.Id("city"));
+            _js.ExecuteScript("arguments[0].scrollIntoView(true);", cityDropdown);
+            cityDropdown.Click();
+            var selectCity = _driver.FindElement(By.XPath("//div[text()='Delhi']"));
+            selectCity.Click();
 
+            // Scroll to Submit button and click it
+            var submitButton = _driver.FindElement(By.Id("submit"));
+            _js.ExecuteScript("arguments[0].scrollIntoView(true);", submitButton);
+            submitButton.Click();
+
+            // Validate the Form Submission (e.g., check for the confirmation modal)
+            var confirmationModal = _driver.FindElement(By.Id("example-modal-sizes-title-lg"));
             Assert.IsTrue(confirmationModal.Displayed);
-            Assert.That(confirmationModal.Text, Is.EqualTo("Thanks for submitting the form"));
+            Assert.AreEqual("Thanks for submitting the form", confirmationModal.Text);
         }
 
 
         [Test]
         public void VerifyFormValidationTest()
         {
-            _driver.Navigate().GoToUrl("https://demoqa.com/automation-practice-form");
+            var js = (IJavaScriptExecutor)_driver;
 
-            ClickElement(By.Id("submit"));
-            Thread.Sleep(2000);
+            // Scroll to and click the Submit button without filling any field
+            var submitButton = _driver.FindElement(By.Id("submit"));
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", submitButton);
+            submitButton.Click();
 
-            string firstNameBorderColor = GetBorderColor(By.Id("firstName"));
+            // Scroll to and verify validation for First Name
+            var firstNameInput = _driver.FindElement(By.Id("firstName"));
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", firstNameInput);
+            string firstNameBorderColor = firstNameInput.GetCssValue("border-color");
 
-            string lastNameBorderColor = GetBorderColor(By.Id("lastName"));
+            // Scroll to and verify validation for Last Name
+            var lastNameInput = _driver.FindElement(By.Id("lastName"));
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", lastNameInput);
+            string lastNameBorderColor = lastNameInput.GetCssValue("border-color");
 
-            string mobileNumberBorderColor = GetBorderColor(By.Id("userNumber"));
+            // Scroll to and verify validation for Email
+            var emailInput = _driver.FindElement(By.Id("userEmail"));
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", emailInput);
+            string emailBorderColor = emailInput.GetCssValue("border-color");
 
-            string expectedBorderColor = "rgb(220, 53, 69)";
+            // Scroll to and verify validation for Mobile Number
+            var mobileNumberInput = _driver.FindElement(By.Id("userNumber"));
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", mobileNumberInput);
+            string mobileNumberBorderColor = mobileNumberInput.GetCssValue("border-color");
 
-            Assert.That(firstNameBorderColor, Is.EqualTo(expectedBorderColor), "First Name validation failed.");
-            Assert.That(lastNameBorderColor, Is.EqualTo(expectedBorderColor), "Last Name validation failed.");
-            Assert.That(mobileNumberBorderColor, Is.EqualTo(expectedBorderColor), "Mobile Number validation failed.");
+            // Check if the border color indicates an error (commonly red)
+            string expectedBorderColor = "rgb(210, 166, 175)"; // Adjust this if the page uses a different color
+
+            Assert.AreEqual(expectedBorderColor, firstNameBorderColor, "First Name validation failed.");
+            Assert.AreEqual(expectedBorderColor, lastNameBorderColor, "Last Name validation failed.");
+            Assert.AreEqual(expectedBorderColor, emailBorderColor, "Email validation failed.");
+            Assert.AreEqual(expectedBorderColor, mobileNumberBorderColor, "Mobile Number validation failed.");
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            _driver.Quit();
         }
     }
 }
