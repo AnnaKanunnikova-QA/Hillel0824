@@ -59,11 +59,11 @@ namespace SeleniumDemoQA.Tests
             var resultName = _driver.FindElement(By.Id("name"));
             Assert.That(resultName.Text, Is.EqualTo("Name:Anna Kanunnikova"));
             var resultEmail = _driver.FindElement(By.Id("email"));
-            Assert.That(resultName.Text, Is.EqualTo("Email:avkanunnikova@gmail.com"));
-            var resultCurrentAddress = _driver.FindElement(By.Id("currentAddress"));
-            Assert.That(resultName.Text, Is.EqualTo("Current Address :Funchal, Madeira"));
-            var resultPermanentAddress = _driver.FindElement(By.Id("permanentAddress"));
-            Assert.That(resultName.Text, Is.EqualTo("Permanent Address :California, USA"));
+            Assert.That(resultEmail.Text, Is.EqualTo("Email:avkanunnikova@gmail.com"));
+            var resultCurrentAddress = _driver.FindElement(By.XPath("//p[@id='currentAddress']"));
+            Assert.That(resultCurrentAddress.Text, Is.EqualTo("Current Address :Funchal, Madeira"));
+            var resultPermanentAddress = _driver.FindElement(By.XPath("//p[@id='permanentAddress']"));
+            Assert.That(resultPermanentAddress.Text, Is.EqualTo("Permanent Address :California, USA"));
         }
 
         [TearDown]
