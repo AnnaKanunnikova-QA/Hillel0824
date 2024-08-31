@@ -9,38 +9,8 @@ using System.Runtime.Intrinsics.X86;
 
 namespace SeleniumDemoQA.Tests
 {
-    internal class TextBoxTests
+    public class TextBoxTests: BaseClass
     {
-        private IWebDriver _driver;
-        IJavaScriptExecutor _js;
-
-        [SetUp]
-        public void Setup()
-        {
-            var options = new ChromeOptions();
-            options.AddArgument("window-size=1400,1200"); // Set desired resolution
-            _driver = new ChromeDriver(options);
-            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            _driver.Navigate().GoToUrl("https://demoqa.com/text-box ");
-            _js = (IJavaScriptExecutor)_driver;
-        }
-        private void ScrollTo(IWebElement element)
-        {
-            _js.ExecuteScript("arguments[0].scrollIntoView(true);", element);
-        }
-        void FillInput(By selector, string value)
-        {
-            var webElement = _driver.FindElement(selector);
-            ScrollTo(webElement);
-            webElement.SendKeys(value);
-        }
-        private void ClickElement(By selector)
-        {
-            var webElement = _driver.FindElement(selector);
-            ScrollTo(webElement);
-            webElement.Click();
-        }
-
         [Test]
         public void FillAndSubmitTest()
         {
@@ -60,17 +30,12 @@ namespace SeleniumDemoQA.Tests
             Assert.That(resultName.Text, Is.EqualTo("Name:Anna Kanunnikova"));
             var resultEmail = _driver.FindElement(By.Id("email"));
             Assert.That(resultEmail.Text, Is.EqualTo("Email:avkanunnikova@gmail.com"));
-            var resultCurrentAddress = _driver.FindElement(By.XPath("//p[@id='currentAddress']"));
+            var resultCurrentAddress = _driver.FindElement(By.CssSelector("#output  #currentAddress"));
             Assert.That(resultCurrentAddress.Text, Is.EqualTo("Current Address :Funchal, Madeira"));
-            var resultPermanentAddress = _driver.FindElement(By.XPath("//p[@id='permanentAddress']"));
-            Assert.That(resultPermanentAddress.Text, Is.EqualTo("Permanent Address :California, USA"));
+            var resultPermanentAddress = _driver.FindElement(By.CssSelector("#output  #permanentAddress"));
+            Assert.That(resultPermanentAddress.Text, Is.EqualTo("Permananet Address :California, USA"));
         }
 
-        [TearDown]
-        public void TearDown()
-        {
-            _driver.Quit();
-        }
     }
 }
 
