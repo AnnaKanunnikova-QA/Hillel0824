@@ -11,10 +11,11 @@ namespace SeleniumDemoQA.Tests
 {
     public class TextBoxTests: BaseClass
     {
+
         [Test]
         public void FillAndSubmitTest()
         {
-
+            _driver.Navigate().GoToUrl("https://demoqa.com/text-box");
             // Fill out the user name field
             FillInput(By.Id("userName"), "Anna Kanunnikova");
             // Fill out the emailfield

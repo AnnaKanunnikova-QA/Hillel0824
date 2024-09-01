@@ -5,71 +5,12 @@ using System.Xml.Linq;
 
 namespace SeleniumDemoQA.Tests
 {
-    public class AutomationPracticeFormTests
+    public class AutomationPracticeFormTests: BaseClass
     {
-        private IWebDriver _driver;
-        IJavaScriptExecutor _js;
-
-        [SetUp]
-        public void Setup()
-        {
-            var options = new ChromeOptions();
-            options.AddArgument("window-size=1400,1200"); // Set desired resolution
-            _driver = new ChromeDriver(options);
-            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            _driver.Navigate().GoToUrl("https://demoqa.com/automation-practice-form");
-            _js = (IJavaScriptExecutor)_driver;
-        }
-
-        private void ScrollTo(IWebElement element)
-        {
-            _js.ExecuteScript("arguments[0].scrollIntoView(true);", element);
-        }
-          
-        private void FillInput(By selector, string value)
-        {
-            var webElement = _driver.FindElement(selector);
-            ScrollTo(webElement);
-            webElement.SendKeys(value);
-        }
-
-        private void FillInputAndEnter(By selector, string value)
-        {
-            var webElement = _driver.FindElement(selector);
-            ScrollTo(webElement);
-            webElement.SendKeys(value);
-            webElement.SendKeys(Keys.Enter);
-        }
-
-
-        private void ClickElement(By selector)
-        {
-            var webElement = _driver.FindElement(selector);
-            ScrollTo(webElement);
-            webElement.Click();
-        }
-        private void ClickWithoutScroll(By selector)
-        {
-            var webElement = _driver.FindElement(selector);
-            webElement.Click();
-        }
-        private void SelectText(By selector, string text)
-        {
-            var webElement = new SelectElement(_driver.FindElement(selector));
-            webElement.SelectByText(text);
-        }
-
-        private string GetGss(string id)
-        {
-            var webElement = _driver.FindElement(By.Id(id));
-            _js.ExecuteScript("arguments[0].scrollIntoView(true);", webElement);
-            return webElement.GetCssValue("border-color");
-        }
-
-
         [Test]
         public void FillAndSubmitFormTest()
         {
+            _driver.Navigate().GoToUrl("https://demoqa.com/automation-practice-form");
             FillInput(By.Id("firstName"), "John");
             FillInput(By.Id("lastName"), "Doe");
 
@@ -123,7 +64,7 @@ namespace SeleniumDemoQA.Tests
         [Test]
         public void VerifyFormValidationTest()
         {
-            var js = (IJavaScriptExecutor)_driver;
+            _driver.Navigate().GoToUrl("https://demoqa.com/automation-practice-form");
 
             // Scroll to and click the Submit button without filling any field
             ClickElement(By.Id("submit"));
@@ -153,12 +94,6 @@ namespace SeleniumDemoQA.Tests
             Assert.AreEqual(expectedBorderColor, lastNameBorderColor, "Last Name validation failed.");
             Assert.AreEqual(expectedEmailColor, emailBorderColor, "Email validation failed.");
             Assert.AreEqual(expectedBorderColor, mobileNumberBorderColor, "Mobile Number validation failed.");
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            _driver.Quit();
         }
     }
 }
