@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Intrinsics.X86;
+using SeleniumDemoQA.Pages;
 
 namespace SeleniumDemoQA.Tests
 {
@@ -16,16 +17,20 @@ namespace SeleniumDemoQA.Tests
         public void FillAndSubmitTest()
         {
             _driver.Navigate().GoToUrl("https://demoqa.com/text-box");
+
+            var formPage = new FormPage(_driver);
+
+
             // Fill out the user name field
-            FillInput(By.Id("userName"), "Anna Kanunnikova");
+            formPage.FillInput(By.Id("userName"), "Anna Kanunnikova");
             // Fill out the emailfield
-            FillInput(By.Id("userEmail"), "avkanunnikova@gmail.com");
+            formPage.FillInput(By.Id("userEmail"), "avkanunnikova@gmail.com");
             // Fill out the Current Address
-            FillInput(By.Id("currentAddress"), "Funchal, Madeira");
+            formPage.FillInput(By.Id("currentAddress"), "Funchal, Madeira");
             // Fill out the Permanent Address
-            FillInput(By.Id("permanentAddress"),  "California, USA");
+            formPage.FillInput(By.Id("permanentAddress"),  "California, USA");
             // Click Submit button
-            ClickElement(By.Id("submit"));
+            formPage.ClickElement(By.Id("submit"));
 
             var resultName = _driver.FindElement(By.Id("name"));
             Assert.That(resultName.Text, Is.EqualTo("Name:Anna Kanunnikova"));
