@@ -89,18 +89,18 @@ namespace SeleniumDemoQA.Tests
             formPage.ClickElementById("submit");
 
             // Scroll to and verify validation for First Name // need separate method
-            string firstNameBorderColor = formPage.GetGss("firstName");
+            string firstNameBorderColor = formPage.GetBorderColor("firstName");
 
             // Scroll to and verify validation for Last Name
-            string lastNameBorderColor = formPage.GetGss("lastName");
+            string lastNameBorderColor = formPage.GetBorderColor("lastName");
 
             // Scroll to and verify validation for Email
-            string emailBorderColor = formPage.GetGss("userEmail");
+            string emailBorderColor = formPage.GetBorderColor("userEmail");
 
 
 
             // Scroll to and verify validation for Mobile Number
-            string mobileNumberBorderColor = formPage.GetGss("userNumber");
+            string mobileNumberBorderColor = formPage.GetBorderColor("userNumber");
 
             // Check if the border color indicates an error (commonly red)
             string expectedBorderColor = "rgb(220, 53, 69)"; // Adjust this if the page uses a different color

@@ -49,13 +49,13 @@ namespace SeleniumDemoQA.Pages
             var webElement = _driver.FindElement(selector);
             webElement.Click();
         }
-        public void SelectText(By selector, string text)
+        public void SelectByText(By selector, string text)
         {
             var webElement = new SelectElement(_driver.FindElement(selector));
             webElement.SelectByText(text);
         }
 
-        public string GetGss(string id)
+        public string GetBorderColor(string id)
         {
             var webElement = _driver.FindElement(By.Id(id));
             _js.ExecuteScript("arguments[0].scrollIntoView(true);", webElement);
@@ -88,7 +88,7 @@ namespace SeleniumDemoQA.Pages
 
         public void SelectTextByClassName(string className, string year)
         {
-            SelectText(By.ClassName(className), year);
+            SelectByText(By.ClassName(className), year);
         }
 
         public void ClickElementByCssSelector(string selector)
