@@ -1,73 +1,82 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
 using SeleniumDemoQA.Pages;
-using System.Xml.Linq;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace SeleniumDemoQA.Tests
 {
-    public class AutomationPracticeFormTests: BaseClass
+    public class AutomationPracticeFormTests : BaseClass
     {
-        public bool? IsConfirmationModalDisplayed { get; private set; }
+        By firstNameBy = By.Id("firstName");
+        By lastNameBy = By.Id("lastName");
+        By userEmailBy = By.Id("userEmail");
+        By genderRadioBy = By.CssSelector("label[for='gender-radio-1']");
+        By usernamberBy = By.Id ("userNumber");
+        By dateOfBirthInputBy = By.Id("dateOfBirthInput");
+        By datepickerMonthBy = By.ClassName("react-datepicker__month-select");
+        By datepickerYearBy = By.ClassName("react-datepicker__year-select");
+        By datepickerDayBy = By.CssSelector(".react-datepicker__day--015:not(.react-datepicker__day--outside-month)");
+        By subjectsInputBy = By.Id("subjectsInput");
+        By hobbiesCheckboxBy = By.CssSelector("label[for='hobbies-checkbox-1']");
+        By currentAddressBy = By.Id("currentAddress");
+        By stateBy = By.Id("state");
+        By divTextNCRBy = By.XPath("//div[text()='NCR']");
+        By cityBy = By.Id("city");
+        By divTextDelhiBy = By.XPath("//div[text()='Delhi']");
+        By submitBy = By.Id("submit");
 
         [Test]
+
         public void FillAndSubmitFormTest()
         {
-            _driver.Navigate().GoToUrl("https://demoqa.com/automation-practice-form");
-
             var formPage = new FormPage(_driver);
+            formPage.NavigateTo("https://demoqa.com/automation-practice-form");
 
 
-            //formPage.FillInput(By.Id("firstName"), "John");
-            formPage.FillInputById("firstName", "John");
+            formPage.FillInput(firstNameBy, "John");
 
-            formPage.FillInputById("lastName", "Doe");
+            formPage.FillInput(lastNameBy, "Doe");
 
             // Scroll to Email and fill it out
-            formPage.FillInputById("userEmail", "johndoe@example.com");
+            formPage.FillInput(userEmailBy, "johndoe@example.com");
 
-            formPage.ClickElementBySelector("label[for='gender-radio-1']");
+            formPage.ClickElement(genderRadioBy);
 
             // Scroll to Mobile Number and fill it out
-            formPage.FillUserNumber("1234567890");
+            formPage.FillInput(usernamberBy, "1234567890");
 
             // Scroll to Date of Birth and set it
-            formPage.ClickElementById("dateOfBirthInput");
+            formPage.ClickElement(dateOfBirthInputBy);
 
-            formPage.SelectTextByClassName("react-datepicker__month-select","May");
+            formPage.SelectByText(datepickerMonthBy, "May");
 
-            formPage.SelectTextByClassName("react-datepicker__year-select", "1990");
+            formPage.SelectByText(datepickerYearBy, "1990");
 
-            formPage.ClickElementByCssSelector(".react-datepicker__day--015:not(.react-datepicker__day--outside-month)");
+            formPage.ClickElement(datepickerDayBy);
 
             // Scroll to Subjects and fill it out
-            formPage.FillInpuctAndEnterByClassNameId("subjectsInput", "Maths");
+            formPage.FillInputAndEnter(subjectsInputBy, "Maths");
 
             // Scroll to Hobbies and select one
-            formPage.ClickElementByCssSelector("label[for='hobbies-checkbox-1']");
-
+            formPage.ClickWithoutScroll(hobbiesCheckboxBy);
 
             // Scroll to Current Address and fill it out
-            formPage.FillInputById("currentAddress", "123 Main Street, Anytown, USA");
+            formPage.FillInput(currentAddressBy, "123 Main Street, Anytown, USA");
 
 
             // Scroll to State dropdown and select a state
-            formPage.ClickElementById("state");
+            formPage.ClickElement(stateBy);
             
             // need separate method
-            formPage.ClickElementByXPath("//div[text()='NCR']");
+            formPage.ClickElement(divTextNCRBy);
 
             // Scroll to City dropdown and select a city
-            formPage.ClickElementById("city");
+            formPage.ClickElement(cityBy);
             // need separate method
 
-            formPage.ClickElementByXPath("//div[text()='Delhi']");
+            formPage.ClickElement(divTextDelhiBy);
             // Scroll to Submit button and click it
-            formPage.ClickElementById("submit");
+            formPage.ClickElement(submitBy);
 
             // Validate the Form Submission (e.g., check for the confirmation modal)
-            //var confirmationModal = _driver.FindElement(By.Id("example-modal-sizes-title-lg"));
             var isConfirmationModalDisplayed = formPage.IsConfirmationModalDisplayed();
             var confirmationModalText = formPage.GetConfirmationModalText();
 
@@ -81,12 +90,12 @@ namespace SeleniumDemoQA.Tests
         [Test]
         public void VerifyFormValidationTest()
         {
-            _driver.Navigate().GoToUrl("https://demoqa.com/automation-practice-form");
-
             var formPage = new FormPage(_driver);
+            formPage.NavigateTo("https://demoqa.com/automation-practice-form");
+
 
             // Scroll to and click the Submit button without filling any field
-            formPage.ClickElementById("submit");
+            formPage.ClickElement(submitBy);
 
             // Scroll to and verify validation for First Name // need separate method
             string firstNameBorderColor = formPage.GetBorderColor("firstName");

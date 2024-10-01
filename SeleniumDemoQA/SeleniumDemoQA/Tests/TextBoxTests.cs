@@ -1,36 +1,38 @@
-﻿using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.Intrinsics.X86;
+﻿using OpenQA.Selenium;
 using SeleniumDemoQA.Pages;
 
 namespace SeleniumDemoQA.Tests
+
 {
     public class TextBoxTests: BaseClass
     {
 
+        By userNameBy = By.Id("userName");
+        By userEmailBy = By.Id("userEmail");
+        By currentAddressBy = By.Id("currentAddress");
+        By permanentAddressBy = By.Id("permanentAddress");
+        By submitBy = By.Id("submit");
+
+
+
+
         [Test]
         public void FillAndSubmitTest()
         {
-            _driver.Navigate().GoToUrl("https://demoqa.com/text-box");
-
             var formPage = new FormPage(_driver);
+            formPage.NavigateTo("https://demoqa.com/text-box");
 
 
             // Fill out the user name field
-            formPage.FillInput(By.Id("userName"), "Anna Kanunnikova");
+            formPage.FillInput(userNameBy, "Anna Kanunnikova");
             // Fill out the emailfield
-            formPage.FillInput(By.Id("userEmail"), "avkanunnikova@gmail.com");
+            formPage.FillInput(userEmailBy, "avkanunnikova@gmail.com");
             // Fill out the Current Address
-            formPage.FillInput(By.Id("currentAddress"), "Funchal, Madeira");
+            formPage.FillInput(currentAddressBy, "Funchal, Madeira");
             // Fill out the Permanent Address
-            formPage.FillInput(By.Id("permanentAddress"),  "California, USA");
+            formPage.FillInput(permanentAddressBy,  "California, USA");
             // Click Submit button
-            formPage.ClickElement(By.Id("submit"));
+            formPage.ClickElement(submitBy);
 
             var resultName = _driver.FindElement(By.Id("name"));
             Assert.That(resultName.Text, Is.EqualTo("Name:Anna Kanunnikova"));
