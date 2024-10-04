@@ -53,5 +53,10 @@ namespace SeleniumDemoQA.Pages
             var webElement = _driver.FindElement(selector);
             webElement.Click();
         }
+        public IWebElement FindElement(By by)
+        {
+            IWebElement element = _driver.FindElement(by);
+            return element;
+        }
     }
 }

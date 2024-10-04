@@ -10,13 +10,58 @@ namespace SeleniumDemoQA.Pages
 {
     internal class FormPage : BasePage
     {
-       
-        By confirmationModalElement = By.Id("example-modal-sizes-title-lg");
+
+        private By confirmationModalElement = By.Id("example-modal-sizes-title-lg");
+        private By firstNameInputBy = By.Id("firstName");
+        private By lastNameInputBy = By.Id("lastName");
+        private By emailInputBy = By.Id("userEmail");
+        private By mobileNumberInputBy = By.Id("userNumber");
+        private By currentAddressInputBy = By.Id("currentAddress");
+        private By dateOfBirthInputBy = By.Id("dateOfBirthInput");
+        private By monthPickerBy = By.ClassName("react-datepicker__month-select");
+        private By yearPickerBy = By.ClassName("react-datepicker__year-select");
+        private By subjectsInputBy = By.Id("subjectsInput");
+        private By stateDropdownBy = By.Id("state");
+        private By cityDropdownBy = By.Id("city");
+        private By submitButtonBy = By.Id("submit");
+        private By confirmationModalBy = By.Id("example-modal-sizes-title-lg");
 
         public FormPage(IWebDriver driver) : base(driver)
         {
             
         }
+
+        public void FillFirstName(string firstName)
+        {
+            FillInput(firstNameInputBy, firstName);
+        }
+
+        public void FillLastName(string lastName)
+        {
+            FillInput(lastNameInputBy, lastName);
+        }
+
+        public void FillEmail(string email)
+        {
+            FillInput(emailInputBy, email);
+        }
+
+        public void FillMobileNumber(string mobileNumber)
+        {
+            FillInput(mobileNumberInputBy, mobileNumber);
+        }
+
+        public void FillSubject(string subject)
+        {
+            FillInput(subjectsInputBy, subject);
+            FindElement(subjectsInputBy).SendKeys(Keys.Enter);
+        }
+
+        public void FillCurrentAddress(string currentAddress)
+        {
+            FillInput(currentAddressInputBy, currentAddress);
+        }
+
 
         public void SelectByText(By selector, string text)
         {
@@ -42,5 +87,11 @@ namespace SeleniumDemoQA.Pages
 
             return _driver.FindElement(confirmationModalElement).Text;
         }
+
+        public void SubmitForm()
+        {
+            ClickElement(submitButtonBy);
+        }
+
     }
 }
