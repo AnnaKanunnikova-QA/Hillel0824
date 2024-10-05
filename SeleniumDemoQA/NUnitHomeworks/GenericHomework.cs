@@ -4,10 +4,10 @@ namespace NUnitHomeworks
 {
     internal class GenericHomework
     {
-        // TODO: Implement GetParameterType so that test pass
-        public string GetParameterType(object noNoNo_objectTypeIsNotAcceptable)
+        //Implement GetParameterType so that test pass
+        public string GetParameterType<T>(T noNoNo_objectTypeIsNotAcceptable)
         {
-            return "Change me";
+            return "Data type: " + typeof(T).ToString();
         }
 
 
