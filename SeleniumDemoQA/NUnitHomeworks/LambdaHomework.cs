@@ -52,7 +52,6 @@ namespace NUnitHomeworks
             Assert.That(result, Is.EqualTo(expected).AsCollection);
         }
 
-
         // TODO: Uncomment and implement lambda functions instead of regular functions
         [Test]
         public void Test_Add_Function_To_Lambda()
@@ -88,6 +87,7 @@ namespace NUnitHomeworks
             Assert.That(filterredList.Count, Is.EqualTo(2));
         }
         // TODO: Uncomment and implement without lambda functions
+
         [Test]
         public void Test_Where_NoLambda()
         {

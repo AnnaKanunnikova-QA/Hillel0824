@@ -8,106 +8,73 @@ using System.Threading.Tasks;
 
 namespace SeleniumDemoQA.Pages
 {
-    internal class FormPage
+    internal class FormPage : BasePage
     {
-        public IWebDriver _driver;
-        public IJavaScriptExecutor _js;
-        By confirmationModalElement = By.Id("example-modal-sizes-title-lg");
 
-        public FormPage(IWebDriver driver)
+        private By confirmationModalElement = By.Id("example-modal-sizes-title-lg");
+        private By firstNameInputBy = By.Id("firstName");
+        private By lastNameInputBy = By.Id("lastName");
+        private By emailInputBy = By.Id("userEmail");
+        private By mobileNumberInputBy = By.Id("userNumber");
+        private By currentAddressInputBy = By.Id("currentAddress");
+        private By dateOfBirthInputBy = By.Id("dateOfBirthInput");
+        private By monthPickerBy = By.ClassName("react-datepicker__month-select");
+        private By yearPickerBy = By.ClassName("react-datepicker__year-select");
+        private By subjectsInputBy = By.Id("subjectsInput");
+        private By stateDropdownBy = By.Id("state");
+        private By cityDropdownBy = By.Id("city");
+        private By submitButtonBy = By.Id("submit");
+        private By confirmationModalBy = By.Id("example-modal-sizes-title-lg");
+
+        public FormPage(IWebDriver driver) : base(driver)
         {
-            _driver = driver;
-            _js = (IJavaScriptExecutor)_driver;
+            
         }
 
-        public void ScrollTo(IWebElement element)
+        public void FillFirstName(string firstName)
         {
-            _js.ExecuteScript("arguments[0].scrollIntoView(true);", element);
+            FillInput(firstNameInputBy, firstName);
         }
 
-        public void FillInput(By selector, string value)
+        public void FillLastName(string lastName)
         {
-            var webElement = _driver.FindElement(selector);
-            ScrollTo(webElement);
-            webElement.SendKeys(value);
+            FillInput(lastNameInputBy, lastName);
         }
-        public void ClickElement(By selector)
+
+        public void FillEmail(string email)
         {
-            var webElement = _driver.FindElement(selector);
-            ScrollTo(webElement);
-            webElement.Click();
+            FillInput(emailInputBy, email);
         }
-        public void FillInputAndEnter(By selector, string value)
+
+        public void FillMobileNumber(string mobileNumber)
         {
-            var webElement = _driver.FindElement(selector);
-            ScrollTo(webElement);
-            webElement.SendKeys(value);
-            webElement.SendKeys(Keys.Enter);
+            FillInput(mobileNumberInputBy, mobileNumber);
         }
-        public void ClickWithoutScroll(By selector)
+
+        public void FillSubject(string subject)
         {
-            var webElement = _driver.FindElement(selector);
-            webElement.Click();
+            FillInput(subjectsInputBy, subject);
+            FindElement(subjectsInputBy).SendKeys(Keys.Enter);
         }
-        public void SelectText(By selector, string text)
+
+        public void FillCurrentAddress(string currentAddress)
+        {
+            FillInput(currentAddressInputBy, currentAddress);
+        }
+
+
+        public void SelectByText(By selector, string text)
         {
             var webElement = new SelectElement(_driver.FindElement(selector));
             webElement.SelectByText(text);
         }
 
-        public string GetGss(string id)
+        public string GetBorderColor(string id)
         {
             var webElement = _driver.FindElement(By.Id(id));
             _js.ExecuteScript("arguments[0].scrollIntoView(true);", webElement);
             return webElement.GetCssValue("border-color");
         }
-
-        public void FillInputById(string id, string fieldName)
-        {
-            FillInput(By.Id(id), fieldName);
-        }
-
-
-        public void ClickElementBySelector(string CssSelector)
-        {
-            ClickElement(By.CssSelector(CssSelector));
-        }
-        
-        
-        public void FillUserNumber(string userNumber)
-        {
-            FillInput(By.Id("userNumber"), userNumber);
-        }
-
-
-        public void ClickElementById(string id)
-        {
-           ClickElement(By.Id(id));
-        }
-
-
-        public void SelectTextByClassName(string className, string year)
-        {
-            SelectText(By.ClassName(className), year);
-        }
-
-        public void ClickElementByCssSelector(string selector)
-        {
-            ClickWithoutScroll(By.CssSelector(selector));
-        }
-
-        public void ClickElementByXPath(string selector)
-        {
-            ClickWithoutScroll(By.XPath(selector));
-        }
-
-        public void FillInpuctAndEnterByClassNameId(string elementId, string textName)
-        {
-            FillInputAndEnter(By.Id(elementId), textName);
-        }
-
-        //  string firstNameBorderColor = formPage.GetGss("firstName");
-
 
         internal bool IsConfirmationModalDisplayed()
         {
@@ -120,5 +87,11 @@ namespace SeleniumDemoQA.Pages
 
             return _driver.FindElement(confirmationModalElement).Text;
         }
+
+        public void SubmitForm()
+        {
+            ClickElement(submitButtonBy);
+        }
+
     }
 }
