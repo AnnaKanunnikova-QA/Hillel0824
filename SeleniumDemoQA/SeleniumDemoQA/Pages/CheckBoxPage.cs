@@ -1,9 +1,4 @@
 ﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SeleniumDemoQA.Pages
 {
@@ -14,48 +9,47 @@ namespace SeleniumDemoQA.Pages
 
         }
 
-
-        By treeNodeHomeBy = By.XPath("//label[@for='tree-node-home']");
-        By resultBy = By.Id("result");
-        By TreeNodeHomeButtonBy = By.XPath("//label[@for='tree-node-home']/preceding-sibling::button");
-        By treeNodeDesktopBy = By.XPath("//label[@for='tree-node-desktop']");
-        By treeNodeDocumentsBy = By.XPath("//label[@for='tree-node-documents']");
-        By treeNodeDownloadsBy = By.XPath("//label[@for='tree-node-downloads']");
+        private string pageUrl = "https://demoqa.com/checkbox";
+        private By treeNodeHomeBy = By.XPath("//label[@for='tree-node-home']");
+        private By resultBy = By.Id("result");
+        private By TreeNodeHomeButtonBy = By.XPath("//label[@for='tree-node-home']/preceding-sibling::button");
+        private By treeNodeDesktopBy = By.XPath("//label[@for='tree-node-desktop']");
+        private By treeNodeDocumentsBy = By.XPath("//label[@for='tree-node-documents']");
+        private By treeNodeDownloadsBy = By.XPath("//label[@for='tree-node-downloads']");
 
         public void ClickTreeHome()
         {
-            ClickElement(treeNodeHomeBy);
+            _driver.ClickElement(treeNodeHomeBy);
         }
 
         public IWebElement GetResult()
         {
-            return FindElement(resultBy);
+            return _driver.FindElement(resultBy);
         }
 
         public void ClickTreeHomeButton()
         {
-            ClickElement(TreeNodeHomeButtonBy);
+            _driver.ClickElement(TreeNodeHomeButtonBy);
         }
 
         public IWebElement FindTreeDesktop()
         {
-            return FindElement(treeNodeDesktopBy);
+            return _driver.FindElement(treeNodeDesktopBy);
         }
 
         public IWebElement FindTreeDocument()
         {
-            return FindElement(treeNodeDocumentsBy);
+            return _driver.FindElement(treeNodeDocumentsBy);
         }
 
         public IWebElement FindTreeDownloads()
         {
-            return FindElement(treeNodeDownloadsBy);
+            return _driver.FindElement(treeNodeDownloadsBy);
         }
 
-
-
-
-
-
+        public void OpenWebPage()
+        {
+            _driver.NavigateTo(pageUrl);
+        }
     }
 }
