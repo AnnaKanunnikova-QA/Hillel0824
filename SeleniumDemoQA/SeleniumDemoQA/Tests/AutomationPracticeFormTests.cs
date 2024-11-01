@@ -1,80 +1,59 @@
-﻿using OpenQA.Selenium;
-using SeleniumDemoQA.Pages;
+﻿using SeleniumDemoQA.Pages;
 
 namespace SeleniumDemoQA.Tests
 {
     public class AutomationPracticeFormTests : BaseClass
     {
-        By firstNameBy = By.Id("firstName");
-        By lastNameBy = By.Id("lastName");
-        By userEmailBy = By.Id("userEmail");
-        By genderRadioBy = By.CssSelector("label[for='gender-radio-1']");
-        By usernamberBy = By.Id ("userNumber");
-        By dateOfBirthInputBy = By.Id("dateOfBirthInput");
-        By datepickerMonthBy = By.ClassName("react-datepicker__month-select");
-        By datepickerYearBy = By.ClassName("react-datepicker__year-select");
-        By datepickerDayBy = By.CssSelector(".react-datepicker__day--015:not(.react-datepicker__day--outside-month)");
-        By subjectsInputBy = By.Id("subjectsInput");
-        By hobbiesCheckboxBy = By.CssSelector("label[for='hobbies-checkbox-1']");
-        By currentAddressBy = By.Id("currentAddress");
-        By stateBy = By.Id("state");
-        By divTextNCRBy = By.XPath("//div[text()='NCR']");
-        By cityBy = By.Id("city");
-        By divTextDelhiBy = By.XPath("//div[text()='Delhi']");
-        By submitBy = By.Id("submit");
-
         [Test]
 
         public void FillAndSubmitFormTest()
         {
             var formPage = new FormPage(_driver);
-            formPage.NavigateTo("https://demoqa.com/automation-practice-form");
+            formPage.OpenWebPage();
 
 
-            formPage.FillInput(firstNameBy, "John");
+            formPage.FillFirstName("John");
 
-            formPage.FillInput(lastNameBy, "Doe");
+            formPage.FillLastName("Doe");
 
             // Scroll to Email and fill it out
-            formPage.FillInput(userEmailBy, "johndoe@example.com");
+            formPage.FillEmail("johndoe@example.com");
 
-            formPage.ClickElement(genderRadioBy);
+            formPage.ClickGenderRadio();
 
             // Scroll to Mobile Number and fill it out
-            formPage.FillInput(usernamberBy, "1234567890");
+            formPage.FillMobileNumber("1234567890");
 
             // Scroll to Date of Birth and set it
-            formPage.ClickElement(dateOfBirthInputBy);
+            formPage.ClickDateOfBirth();
 
-            formPage.SelectByText(datepickerMonthBy, "May");
+            formPage.SelectMonth("May");
 
-            formPage.SelectByText(datepickerYearBy, "1990");
+            formPage.SelectYear("1990");
 
-            formPage.ClickElement(datepickerDayBy);
+            formPage.SelectDate();
 
             // Scroll to Subjects and fill it out
-            formPage.FillInputAndEnter(subjectsInputBy, "Maths");
+            formPage.FillSubject("Maths");
 
             // Scroll to Hobbies and select one
-            formPage.ClickWithoutScroll(hobbiesCheckboxBy);
+            formPage.ClickHobbies();
 
             // Scroll to Current Address and fill it out
-            formPage.FillInput(currentAddressBy, "123 Main Street, Anytown, USA");
+            formPage.FillCurrentAddress("123 Main Street, Anytown, USA");
 
 
             // Scroll to State dropdown and select a state
-            formPage.ClickElement(stateBy);
+            formPage.ClickState();
             
-            // need separate method
-            formPage.ClickElement(divTextNCRBy);
+            formPage.ClickNCR();
 
             // Scroll to City dropdown and select a city
-            formPage.ClickElement(cityBy);
-            // need separate method
+            formPage.ClickCity();
 
-            formPage.ClickElement(divTextDelhiBy);
+            formPage.ClickDelhi();
             // Scroll to Submit button and click it
-            formPage.ClickElement(submitBy);
+            formPage.ClickSubmint();
 
             // Validate the Form Submission (e.g., check for the confirmation modal)
             var isConfirmationModalDisplayed = formPage.IsConfirmationModalDisplayed();
@@ -91,11 +70,11 @@ namespace SeleniumDemoQA.Tests
         public void VerifyFormValidationTest()
         {
             var formPage = new FormPage(_driver);
-            formPage.NavigateTo("https://demoqa.com/automation-practice-form");
+            formPage.OpenWebPage();
 
 
             // Scroll to and click the Submit button without filling any field
-            formPage.ClickElement(submitBy);
+            formPage.ClickSubmint();
 
             // Scroll to and verify validation for First Name // need separate method
             string firstNameBorderColor = formPage.GetBorderColor("firstName");

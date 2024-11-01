@@ -1,14 +1,4 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using SeleniumDemoQA.Pages;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using SeleniumDemoQA.Pages;
 
 namespace SeleniumDemoQA.Tests
 {
@@ -20,9 +10,9 @@ namespace SeleniumDemoQA.Tests
         public void BasicCheckBoxTest()
         {
             var checkBoxPage = new CheckBoxPage(_driver);
-            checkBoxPage.NavigateTo("https://demoqa.com/checkbox");
+            checkBoxPage.OpenWebPage();
             checkBoxPage.ClickTreeHome();
- 
+
             string expectedText = "You have selected :\r\nhome\r\ndesktop\r\nnotes\r\ncommands\r\ndocuments\r\nworkspace\r\nreact\r\nangular\r\nveu\r\noffice\r\npublic\r\nprivate\r\nclassified\r\ngeneral\r\ndownloads\r\nwordFile\r\nexcelFile";
             Assert.That(checkBoxPage.GetResult().Text, Is.EqualTo(expectedText));
         }
@@ -32,7 +22,7 @@ namespace SeleniumDemoQA.Tests
 
         {
             var checkBoxPage = new CheckBoxPage(_driver);
-            checkBoxPage.NavigateTo("https://demoqa.com/checkbox");
+            checkBoxPage.OpenWebPage();
 
             // Expand the "Home" checkbox
             checkBoxPage.ClickTreeHomeButton();

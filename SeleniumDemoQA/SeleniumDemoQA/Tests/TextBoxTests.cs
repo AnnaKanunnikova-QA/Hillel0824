@@ -1,5 +1,4 @@
-﻿using OpenQA.Selenium;
-using SeleniumDemoQA.Pages;
+﻿using SeleniumDemoQA.Pages;
 
 namespace SeleniumDemoQA.Tests
 
@@ -13,7 +12,7 @@ namespace SeleniumDemoQA.Tests
 
             //Arrange
             var textBoxPage = new TextBoxPage(_driver);
-            textBoxPage.NavigateTo("https://demoqa.com/text-box");
+            textBoxPage.OpenWebPage();
 
             //Act
 

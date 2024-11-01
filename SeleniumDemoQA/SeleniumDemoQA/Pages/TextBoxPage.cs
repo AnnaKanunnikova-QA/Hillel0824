@@ -1,9 +1,4 @@
 ﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SeleniumDemoQA.Pages
 {
@@ -14,60 +9,66 @@ namespace SeleniumDemoQA.Pages
 
         }
 
-        By userNameBy = By.Id("userName");
-        By userEmailBy = By.Id("userEmail");
-        By currentAddressBy = By.Id("currentAddress");
-        By permanentAddressBy = By.Id("permanentAddress");
-        By submitBy = By.Id("submit");
-        By nameOutputBy = By.Id("name");
-        By emailOutputBy = By.Id("email");
-        By currentOutputAddressBy = By.CssSelector("#output  #currentAddress");
-        By permantOutputAddressBy = By.CssSelector("#output  #permanentAddress");
-        By submitButtonBy = By.Id("submit");
+        private string pageUrl = "https://demoqa.com/text-box";
+        private By userNameBy = By.Id("userName");
+        private By userEmailBy = By.Id("userEmail");
+        private By currentAddressBy = By.Id("currentAddress");
+        private By permanentAddressBy = By.Id("permanentAddress");
+        private By submitBy = By.Id("submit");
+        private By nameOutputBy = By.Id("name");
+        private By emailOutputBy = By.Id("email");
+        private By currentOutputAddressBy = By.CssSelector("#output  #currentAddress");
+        private By permantOutputAddressBy = By.CssSelector("#output  #permanentAddress");
+        private By submitButtonBy = By.Id("submit");
 
         public void FillFullName(string userName)
         {
-            FillInput(userNameBy, userName);
+            _driver.FillInput(userNameBy, userName);
         }
 
         public void FillEmail(string userEmail)
         {
-            FillInput(userEmailBy, userEmail);
+            _driver.FillInput(userEmailBy, userEmail);
         }
         public void FillcurrentAddressBy(string currentAddress)
         {
-            FillInput(currentAddressBy, currentAddress);
+            _driver.FillInput(currentAddressBy, currentAddress);
         }
     
         public void FillpermanentAddressBy(string permanentAddress)
         {
-            FillInput(permanentAddressBy, permanentAddress);
+            _driver.FillInput(permanentAddressBy, permanentAddress);
         }
 
         public void SubmitForm()
         {
-            ClickElement(submitButtonBy);
+            _driver.ClickElement(submitButtonBy);
         }
 
         public String GetOutputName()
         {
-            return FindElement(nameOutputBy).Text;
+            return _driver.FindElement(nameOutputBy).Text;
         }
 
         public String GetOutputEmail()
         {
-            return FindElement(emailOutputBy).Text;
+            return _driver.FindElement(emailOutputBy).Text;
         }
 
         public String GetOutputCurrentAddressBy()
         {
-            return FindElement(currentOutputAddressBy).Text;
+            return _driver.FindElement(currentOutputAddressBy).Text;
         }
 
         public String GetOutputPermanentAddress()
         {
-            return FindElement(permantOutputAddressBy).Text;
+            return _driver.FindElement(permantOutputAddressBy).Text;
+        }
+
+        public void OpenWebPage()
+        {
+            _driver.NavigateTo(pageUrl);
         }
     }
 
-    }
+}
