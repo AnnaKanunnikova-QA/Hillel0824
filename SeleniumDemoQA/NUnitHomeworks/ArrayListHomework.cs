@@ -13,10 +13,6 @@ namespace CSharpBasics
             int[] numbers = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             // Act
             int sum = 0;
-            //foreach (int number in numbers)
-            // {
-            //     sum = number + sum;
-            // }
 
             for (int i = 0; i < numbers.Length; i++)
             {
@@ -24,7 +20,7 @@ namespace CSharpBasics
             }
 
             // Assert
-            Assert.That(sum, Is.EqualTo(55)); // 1+2+...+10 = 55
+            Assert.That(sum, Is.EqualTo(55));
         }
 
         [Test]
