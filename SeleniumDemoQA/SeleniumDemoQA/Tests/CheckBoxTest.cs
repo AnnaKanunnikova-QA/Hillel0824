@@ -24,15 +24,12 @@ namespace SeleniumDemoQA.Tests
             var checkBoxPage = new CheckBoxPage(_driver);
             checkBoxPage.OpenWebPage();
 
-            // Expand the "Home" checkbox
             checkBoxPage.ClickTreeHomeButton();
 
-            // Find and assert "Desktop" checkbox
             var resultdesktopCheckbox = checkBoxPage.FindTreeDesktop();
             var resultdesktopDocuments = checkBoxPage.FindTreeDocument();
             var resultdesktopDownloads = checkBoxPage.FindTreeDownloads();
 
-            // Assert that the Desktop checkbox is displayed
             Assert.Multiple(() =>
             {
                 Assert.That(resultdesktopCheckbox.Displayed, Is.True);
