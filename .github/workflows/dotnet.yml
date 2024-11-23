@@ -7,8 +7,7 @@ on:
       - 'SeleniumDemoQA/SeleniumDemoQA/**'
   pull_request:
     branches: [ "main" ]
-    paths:
-      - 'SeleniumDemoQA/SeleniumDemoQA/**'
+   
 
 jobs:
   build:
