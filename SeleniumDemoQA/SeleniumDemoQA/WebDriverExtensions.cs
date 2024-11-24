@@ -15,7 +15,6 @@ namespace SeleniumDemoQA
             return driver.FindElement(by);
         }
 
-
         public static void NavigateTo(this IWebDriver driver, string link)
         {
             driver.Navigate().GoToUrl(link);
