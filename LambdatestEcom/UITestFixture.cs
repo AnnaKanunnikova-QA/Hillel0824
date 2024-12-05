@@ -6,7 +6,7 @@ namespace LambdatestEcom
     {
         public IPage page { get; private set; }
         private IBrowser browser;
-        private IBrowserContext context;
+        protected IBrowserContext context;
 
         [SetUp]
         public async Task Setup()
@@ -16,7 +16,8 @@ namespace LambdatestEcom
             var playwrightDriver = await Playwright.CreateAsync();
             browser = await playwrightDriver.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
             {
-                Headless = ciEnv == "true"
+                Headless = ciEnv == "true",
+                ExecutablePath = @"C:\Users\avkan\AppData\Local\ms-playwright\chromium-1129\chrome-win\chrome.exe"
             });
 
             context = await browser.NewContextAsync(new BrowserNewContextOptions
