@@ -18,7 +18,6 @@ namespace LambdatestEcom
             browser = await playwrightDriver.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
             {
                 Headless = ciEnv == "true",
-                ExecutablePath = @"C:\Users\avkan\AppData\Local\ms-playwright\chromium-1129\chrome-win\chrome.exe"
 
             });
 
