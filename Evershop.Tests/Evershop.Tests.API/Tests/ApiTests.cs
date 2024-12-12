@@ -1,6 +1,5 @@
 ﻿using Evershop.Tests.API.Models;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Net;
 
 namespace Evershop.Tests.API.Tests
@@ -23,16 +22,7 @@ namespace Evershop.Tests.API.Tests
             var response = await app.ApiClient.PostAsync<LoginResponseData>(request);
             _cookies = response.Response.Cookies;
 
-
-            Assert.That(response.Response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             response.AssertStatusCode(HttpStatusCode.OK);
-
-
-            var jsonResponse = JObject.Parse(response.Response.Content);
-            Assert.IsNotNull(jsonResponse["data"]);  
-            Assert.IsNotNull(jsonResponse["data"]["sid"]);
-            _sid = jsonResponse["data"]["sid"].ToString();
-
             Assert.IsNotNull(response.Data.Data.Sid); 
             _sid = response.Data.Data.Sid;
         }
@@ -78,15 +68,14 @@ namespace Evershop.Tests.API.Tests
             request.AddJsonBody(JsonConvert.SerializeObject(product));
 
             // Act
-            var response = await app.ApiClient.PostAsync(request);
+            var response = await app.ApiClient.PostAsync<ProductResponseData>(request);
 
             // Assert
-            var jsonResponse = JObject.Parse(response.Response.Content);
-            uuid = jsonResponse["data"]["uuid"].ToString();
-            Assert.That(response.Response.StatusCode, Is.EqualTo(HttpStatusCode.OK), jsonResponse.ToString());
-            Assert.IsNotNull(jsonResponse["data"]);  // Check if new ID was returned
-            Assert.IsNotNull(jsonResponse["data"]["product_description_id"]);  // Check if new ID was returned
-            Assert.That(response.ExecutionTime, Is.LessThan(TimeSpan.FromMilliseconds(150)));
+            uuid = response.Data.Data.Uuid;
+            response.AssertStatusCode(HttpStatusCode.OK);
+            Assert.IsNotNull(response.Data.Data);  // Check if new ID was returned
+            Assert.IsNotNull(response.Data.Data.ProductDescriptionId);  // Check if new ID was returned
+            response.AssertExecutionTimeUnder(1);
         }
 
         [TearDown]
@@ -103,7 +92,7 @@ namespace Evershop.Tests.API.Tests
                 request.AddHeader("Authorization", $"Bearer {_sid}");
                 var response = await app.ApiClient.DeleteAsync(request);
 
-                Assert.That(response.Response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                response.AssertStatusCode(HttpStatusCode.OK);
 
             }
 
